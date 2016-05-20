@@ -19,3 +19,4 @@ extract_data.py: Python script that extracts the overlapping data between MSD, M
 	- msdtoolkit: Path to MSongsDB folder. This is a toolkit that can be downloaded from the MillionSongDataset website.
 	- tagtraum: Path to Tagtraum dataset (msd_tagtraum_cd2.cls)
 	- mxm: Path to MXM dataset (mxm_dataset.db)
+	- cs: Path to common_songs.txt
