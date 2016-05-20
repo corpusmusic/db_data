@@ -12,20 +12,25 @@ common_songs.txt: Track IDs that intersect between MXM and Tagtraum datasets.
 
 msd_tagtraum_cd2.cls: Tagtraum data
 
-geo-information.csv: Geography data from subset
+geo_information.csv: Geography data from subset
+
+geo_information_coordinates.csv: Geography sub-data with latitude and longitude coordinates
+
+geo_information_nan.csv: Geography sub-data with no coordinates
 
 - otherdata.csv: Information from Tagtraum and MXM.
 - subset/: Information from MSD
 - common_songs.txt: Overlap between MXM and Tagtraum datasets
 - msd_tagtraum_cd2.cls: Tagtraum data
-- geo-information.csv: Geography data from subset
-
+- geo_information.csv: All geography data from subset
+- geo_information_coordinates.csv: Geography sub-data with latitude and longitude coordinates
+- geo_information_nan.csv: Geography sub-data with no coordinates
 
 ## Scripts
 
 extract_data.py: Python script that extracts the overlapping data between MSD, MXM, and Tagtraum datasets. This is how the csv was generated. Task: Read in data from the datasets, find the intersecting data, convert data into csv format.
 
-extract_geography_data.py: extracts track_id, artist_location, artist_latitude, artist_longitude from all h5 files of subset. The result file is geo-information.csv. You need "subset" and "PythonSrc" folder as a subfolder for the execution.
+extract_geography_data.py: extracts track_id, artist_location, artist_latitude, artist_longitude from all h5 files of subset. The result files are geo_information_nan.csv, geo_information_coordinates.csv, and geo_information.csv. You need "subset" and "PythonSrc" folder as a subfolder for the execution.
 
 ## Arguments:
 	Note: Path information will need to be changed. Examples provided below. 

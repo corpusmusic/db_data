@@ -16,119 +16,57 @@ sys.path.append( os.path.join(msd_code_path,'PythonSrc') )
 import hdf5_getters as GETTERS
 
 
-track_id = ''
-artist_location = ''
-artist_latitude = 0
-artist_longitude = 0
-
 # we define this very useful function to iterate the files
 def apply_to_all_files(basedir,func=lambda x: x,ext='.h5'):
     cnt = 0
-    track_geography = "track_id,artist_location,artist_latitude,artist_longitude\n"
     
-    with open('geo-information.csv', "w") as outfile:
-        outfile.write(track_geography)
+    track_info = np.array(['track_id','artist_location','artist_latitude','artist_longitude'])
+    nan_track_info = np.array(['track_id','artist_location','artist_latitude','artist_longitude'])
+    nonnan_track_info = np.array(['track_id','artist_location','artist_latitude','artist_longitude'])
 
-        # iterate over all files in all subdirectories
-        for root, dirs, files in os.walk(basedir):
-            files = glob.glob(os.path.join(root,'*'+ext))
+    # iterate over all files in all subdirectories
+    for root, dirs, files in os.walk(basedir):
+        files = glob.glob(os.path.join(root,'*'+ext))
             
-            # count files
-            cnt += len(files)
+        # count files
+        cnt += len(files)
             
-            # apply function to all files
-            for f in files :
-                track_geography = ''
+        # apply function to all files
+        for f in files:
+            track_info_row = func(f)
+            track_info_row[1] = track_info_row[1].replace(',','/')
 
-                func(f)
+            if track_info_row[2] == 'nan' or track_info_row[3] == 'nan':
+                nan_track_info = np.vstack([nan_track_info, track_info_row])
+            else:
+                nonnan_track_info = np.vstack([nonnan_track_info, track_info_row])
+                        
+            track_info = np.vstack([track_info, track_info_row])
+             
+    with open('geo_information.csv', 'w') as outfile:
+        np.savetxt(outfile, track_info, delimiter=',', fmt="%s")
 
-                track_geography = track_id +','+ artist_location.replace(',','/') +','+ str(artist_latitude) +','+ str(artist_longitude) +'\n'
-                outfile.write(track_geography)
-
-    outfile.close()
+    with open('geo_information_nan.csv', 'w') as nanfile:        
+        np.savetxt(nanfile, nan_track_info, delimiter=',', fmt="%s")                  
+    
+    with open('geo_information_coordinates.csv', 'w') as nonnanfile:
+        np.savetxt(nonnanfile, nonnan_track_info, delimiter=',', fmt="%s")
 
     return cnt
 
 
 def get_geography_information(h5file):
-    global track_id
-    global artist_latitude
-    global artist_longitude
-    global artist_location
-
     h5 = GETTERS.open_h5_file_read(h5file)
-    songidx = 0
-    onegetter = ''
 
-    numSongs = GETTERS.get_num_songs(h5)
-    if songidx >= numSongs:
-        print 'ERROR: file contains only',numSongs
-        h5.close()
-        sys.exit(0)
-
-    # get all getters
-    getters = filter(lambda x: x[:4] == 'get_', GETTERS.__dict__.keys())
-    getters.remove("get_num_songs") # special case
-    if onegetter == 'num_songs' or onegetter == 'get_num_songs':
-        getters = []
-    elif onegetter != '':
-        if onegetter[:4] != 'get_':
-            onegetter = 'get_' + onegetter
-        try:
-            getters.index(onegetter)
-        except ValueError:
-            print 'ERROR: getter requested:',onegetter,'does not exist.'
-            h5.close()
-            sys.exit(0)
-        getters = [onegetter]
-    getters = np.sort(getters)
-
-    # print them
-    for getter in getters:
-        try:
-            res = GETTERS.__getattribute__(getter)(h5,songidx)
-        except AttributeError, e:
-            continue
-        #except AttributeError, e:
-        #    if summary:
-        #        continue
-        #    else:
-        #        print e
-        #        print 'forgot -summary flag? specified wrong getter?'
-        if getter[4:] == 'track_id':
-            if res.__class__.__name__ == 'ndarray':
-                track_id = res.shape
-                #print getter[4:]+": shape =",res.shape
-            else:
-                track_id = res
-                #print getter[4:]+":",res
-        
-        if getter[4:] == 'artist_location':
-            if res.__class__.__name__ == 'ndarray':
-                artist_location = res.shape
-                #print getter[4:]+": shape =",res.shape
-            else:
-                artist_location = res
-                #print getter[4:]+":",res
-
-        if getter[4:] == 'artist_latitude':
-            if res.__class__.__name__ == 'ndarray':
-                artist_latitude = res.shape
-                #print getter[4:]+": shape =",res.shape
-            else:
-                artist_latitude = res
-                #print getter[4:]+":",res
-
-        if getter[4:] == 'artist_longitude':
-            if res.__class__.__name__ == 'ndarray':
-                artist_longitude = res.shape
-                #print getter[4:]+": shape =",res.shape
-            else:
-                artist_longitude = res
-                #print getter[4:]+":",res
-
+    track_id = GETTERS.get_track_id(h5)
+    artist_location = GETTERS.get_artist_location(h5)
+    artist_latitude = GETTERS.get_artist_latitude(h5)
+    artist_longitude = GETTERS.get_artist_longitude(h5)
+    
     h5.close()
 
+    return np.array([track_id, artist_location, artist_latitude, artist_longitude])
+    
 
 def main():
     parser = argparse.ArgumentParser()
