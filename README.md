@@ -7,7 +7,9 @@ This corpus contains the overlapping data from the Million Song Dataset (MSD), M
 otherdata.csv: Information from Tagtraum and MXM. Note genre field may contain two values. | symbol separates genres and words. detailed Headers: track_id, genre|genre, word|count
 
 subset/: Information from MSD. Includes song data information such as artist name, song name, ect.  
+
 common_songs.txt: Track IDs that intersect between MXM and Tagtraum datasets. 
+
 msd_tagtraum_cd2.cls: Tagtraum data
 
 - otherdata.csv: Information from Tagtraum and MXM.
@@ -28,7 +30,7 @@ extract_data.py: Python script that extracts the overlapping data between MSD, M
 	- mxm: Path to MXM dataset (mxm_dataset.db)
 
 ## Executing the script:
-    To run the extract_data.py script, you need to have python3 installed on your machine. Information on getting python3 can be found [here](https://www.python.org/downloads/).In Python 2.7 the csv file will be incorrectly generated due to unicode formatting behavior. Formatting the detailed information in the MSD in csv format is not realistic due to the sheer size of the subset. To extract that data, see [here](http://labrosa.ee.columbia.edu/millionsong/pages/basic-getters-functions)
+To run the extract_data.py script, you need to have python3 installed on your machine. Information on getting python3 can be found [here](https://www.python.org/downloads/). In Python 2.7 the csv file will be incorrectly generated due to unicode formatting behavior. Formatting the detailed information in the MSD in csv format is not realistic due to the sheer size of the subset. To extract that data, see [here](http://labrosa.ee.columbia.edu/millionsong/pages/basic-getters-functions)
         
-    Type this command in a terminal window: `python3 extract_data.py`
+Type this command in a terminal window: `python3 extract_data.py`
 
