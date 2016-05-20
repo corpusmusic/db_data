@@ -115,7 +115,8 @@ def main():
     #outfile = codecs.open("otherdata.csv", mode="wb", encoding="utf-8")
     with open('otherdata.csv', "w") as outfile:
         for line in full_data:
-            outfile.write(str(line).lstrip("[").rstrip("]"))
+            line = ",".join(line)+"\n"
+            outfile.write(line)
         #np.savetxt(outfile, tmplist, delimiter=",", fmt="%s")
     '''
     trackids = []
