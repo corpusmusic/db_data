@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from pprint import pprint
-from scipy.stats import chisquare
+from scipy.stats import chisquare,chi2_contingency
 from csv import DictReader
 
 f, (ax1) = plt.subplots(1)
@@ -32,4 +32,7 @@ for genre in table_dict:
 
 pprint(table)
 
+print("Chi Squared")
 print(chisquare(table))
+print("Pearson's Chi Squared")
+print(chi2_contingency(table))
