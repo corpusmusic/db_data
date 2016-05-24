@@ -5,7 +5,7 @@ import glob
 import numpy as np
 import argparse
 
-msd_code_path='.'
+msd_code_path='../'
 assert os.path.isdir(msd_code_path),'wrong path' # sanity check
 # we add some paths to python so we can import MSD code
 # Ubuntu: you can change the environment variable PYTHONPATH
@@ -76,7 +76,7 @@ def main():
     if args.msdsubset:
         msd_subset_path = args.msdsubset
     else:
-        msd_subset_path='./subset'
+        msd_subset_path='../subset'
     assert os.path.isdir(msd_subset_path),'wrong path' # sanity check
 
     print apply_to_all_files(msd_subset_path, get_geography_information)
