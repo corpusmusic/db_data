@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import h5py
-import hdf5_getters as getters
+import PythonSrc.hdf5_getters as getters
 import argparse
 import os
 import sys
