@@ -127,6 +127,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-d', '--dir', dest='dir_name')
     parser.add_argument('-o', '--out', dest='outfile_name')
+    parser.add_argument('-f', '--file', dest='infile_name')
     parser.add_argument('getters', nargs='*')
 
     args = parser.parse_args()
@@ -137,15 +138,26 @@ def main():
         dir_name = 'subset/'
 
     if args.outfile_name:
-        outfile_name = args.outfile_name + '.csv'
+        outfile_name = args.outfile_name
     else:
         outfile_name = 'data_ouput.csv'
 
-    
+    if args.infile_name:
+        try:
+            fo = open(args.infile_name, 'r')
+            line = fo.readline()
+            h5_getters = line.split()
+
+        except:
+            print args.infile_name + " does not exist"
+            exit()
+    else:
+        h5_getters = args.getters
+
     files = [dir_name + fil for fil in os.listdir(dir_name) if fil.endswith('.h5')]
 
     print "Fetching data..."
-    infos = get_info(files, args.getters)
+    infos = get_info(files, h5_getters)
     
     with open(outfile_name, 'w') as f:
         np.savetxt(f, infos, delimiter=',', fmt="%s")
