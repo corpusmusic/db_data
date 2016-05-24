@@ -137,9 +137,9 @@ def main():
         dir_name = 'subset/'
 
     if args.outfile_name:
-        outfile_name = args.outfile_name + '.tsv'
+        outfile_name = args.outfile_name + '.csv'
     else:
-        outfile_name = 'data_ouput.tsv'
+        outfile_name = 'data_ouput.csv'
 
     
     files = [dir_name + fil for fil in os.listdir(dir_name) if fil.endswith('.h5')]
@@ -148,7 +148,7 @@ def main():
     infos = get_info(files, args.getters)
     
     with open(outfile_name, 'w') as f:
-        np.savetxt(f, infos, delimiter='\t', fmt="%s")
+        np.savetxt(f, infos, delimiter=',', fmt="%s")
 
     print outfile_name + ' created'
 
