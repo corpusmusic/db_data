@@ -25,7 +25,7 @@ def append_cluster_column(filename):
             X.append([lon, lat])
 
         K = 15  #number of clusters
-        km = KMeans(n_clusters=K, n_init=K, init='random')
+        km = KMeans(n_clusters=K, n_init=5000, init='random')
         km.fit(X,Y)
 
         cluster_num = {}
@@ -45,9 +45,13 @@ def append_cluster_column(filename):
                     line.append(cluster_num[line[0]])
                     writer.writerow(line)
         
-
+'''
 geofile_coordinates = 'geo_information_coordinates.csv'
 geofile_nan = 'geo_information_nan_location_coordinates.tsv'
 
 append_cluster_column(geofile_coordinates)
 append_cluster_column(geofile_nan)
+'''
+geofile_final = 'geo_information_final.csv'
+
+append_cluster_column(geofile_final)
