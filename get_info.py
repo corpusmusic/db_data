@@ -4,6 +4,7 @@ import h5py
 import hdf5_getters as getters
 import argparse
 import os
+import sys
 import numpy as np
 
 getter_mappings = {	
@@ -64,10 +65,24 @@ getter_mappings = {
     'year': getters.get_year
 }
 
+def ndarray_to_string( array ):
+    if array.ndim == 1:
+        val = '[' + ' '.join(map(str,array)) + ']'
+        return val
+    else:
+        row_strs = []
+        for row in array:
+            row_strs.append(ndarray_to_string(row))
+        return '[' + ''.join(row_strs) + ']'
+
+
 def get_info(files, getter_list):
     header = ['tid'] + getter_list
     info_list = np.array([header])
 
+    iteration = 0
+    total = len(files)
+    #print_progress(iteration, total, prefix = 'Progress:', suffix = 'Complete', barLength=50)
     for fil in files:
         fo = getters.open_h5_file_read(fil)
 
@@ -79,10 +94,14 @@ def get_info(files, getter_list):
             try:
                 getter_func = getter_mappings[getter_str]
             except:
-                print getter_str + " is not a valid option."
-                quit()
+                print "Error: " + getter_str + " is not a valid option."
+                exit()
             
             getter_data = getter_func(fo)
+
+            if isinstance(getter_data, np.ndarray):
+                getter_data = ndarray_to_string(getter_data)
+
             file_data.append(getter_data)
 
         tmp_arr = np.array([file_data])
@@ -90,9 +109,19 @@ def get_info(files, getter_list):
 
         fo.close()
 
+        iteration+=1
+        print_progress(iteration, total, prefix = 'Progress:', suffix = 'Complete', barLength=50)
+
     return info_list
 
-
+def print_progress (iteration, total, prefix = '', suffix = '', decimals = 2, barLength = 100):
+    filledLength    = int(round(barLength * iteration / float(total)))
+    percents        = round(100.00 * (iteration / float(total)), decimals)
+    bar             = '#' * filledLength + '-' * (barLength - filledLength)
+    sys.stdout.write('%s [%s] %s%s %s\r' % (prefix, bar, percents, '%', suffix)),
+    sys.stdout.flush()
+    if iteration == total:
+        print("\n")
 
 def main():
     parser = argparse.ArgumentParser()
