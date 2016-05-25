@@ -30,9 +30,17 @@ for genre in table_dict:
 		row.append(table_dict[genre][cluster])
 	table.append(row)
 
-pprint(table)
+with open("chisquared.csv", "w+") as outfile:
+	outfile.write(",".join(table_dict.keys())+"\n")
+	for row in table:
+		rowString = ""
+		for column in row:
+			rowString += str(column/sum(row))+","
+		outfile.write(rowString+"\n")
+	
+#pprint(table)
 
-print("Chi Squared")
-print(chisquare(table))
+#print("Chi Squared")
+#print(chisquare(table))
 print("Pearson's Chi Squared")
 print(chi2_contingency(table))
