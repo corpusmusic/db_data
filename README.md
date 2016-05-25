@@ -26,13 +26,21 @@ extract_data.py: Python script that extracts the overlapping data between MSD, M
 
 ## Arguments:
 	Note: Path information will need to be changed. Examples provided below. 
-	- msd: Path to MillionSongSubset or MillionSongDataset folders. Ex: '/home/usr/path/to/dir/MillionSongSubset'
-	- msdtoolkit: Path to MSongsDB folder. This is a toolkit that can be downloaded from the MillionSongDataset website. Ex: '/home/usr/path/to/dir/MSongsDB' 
+	- msd: Path to MillionSongSubset or MillionSongDataset folders. Ex: '/bin/usr/path/to/dir/MillionSongSubset'
+	- msdtoolkit: Path to MSongsDB folder. This is a toolkit that can be downloaded from the MillionSongDataset website. Ex: '/bin/usr/path/to/dir/MSongsDB' 
 	- tagtraum: Path to Tagtraum dataset (msd_tagtraum_cd2.cls)
 	- mxm: Path to MXM dataset (mxm_dataset.db) '/home/usr/path/to/dir/MillionSongSubset/mxm_dataset.db'
 
 ## Executing the script:
 To run the extract_data.py script, you need to have python3 installed on your machine. Information on getting python3 can be found [here](https://www.python.org/downloads/). In Python 2.7 the csv file will be incorrectly generated due to unicode formatting behavior. Formatting the detailed information in the MSD in csv format is not realistic due to the sheer size of the subset. To extract that data, see [here](http://labrosa.ee.columbia.edu/millionsong/pages/basic-getters-functions).
+##CSV Generator
+There are two scripts that grab data attributes from the MSD, converting the data into a csv format. The python script `getData.py` takes a text file as a command line argument, which is then parsed into an array containing the desired fields.The other file, `get_info.py`, gets the fields from the user directly from the command line. This file is also written for python version 2.7.10. 
+
+##Running the Programs:
+
+get_info.py: `python get_info.py track_id song_id tempo`
+
+getData.py: `python3 getData testGetData.txt`
         
-Type this command in a terminal window: `python3 extract_data.py`
+extract_data.py: `python3 extract_data.py`
 
