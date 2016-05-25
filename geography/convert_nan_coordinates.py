@@ -30,7 +30,7 @@ for loc_array in locations:
   geoinfo = np.vstack((geoinfo, loc_array))
   cnt += 1
 
-with open('geo_information_nan_location_coordinates.tsv', 'w') as f:
-  np.savetxt(f, geoinfo, delimiter='\t', fmt="%s")
+with open('geo_information_nan_location_coordinates.csv', 'w') as f:
+  np.savetxt(f, geoinfo, delimiter=',', fmt="%s")
 
 print "conversion total: %d, success: %d, failure: %d"%(locations.size, cnt, locations.size-cnt)

@@ -20,8 +20,8 @@ def append_cluster_column(filename):
         Y = []
         for line in reader:
             Y.append(line[0])
-            lon = float(line[3])
-            lat = float(line[2])
+            lon = float(line[4])
+            lat = float(line[3])
             X.append([lon, lat])
 
         K = 15  #number of clusters
@@ -34,7 +34,7 @@ def append_cluster_column(filename):
 
         with open(os.path.splitext(filename)[0] + '_cluster.csv','wb') as outfile:
             writer = csv.writer(outfile, lineterminator='\n')
-            header_row = ['track_id','artist_location','latitude','longitude','cluster']
+            header_row = ['track_id','genre','artist_location','latitude','longitude','cluster']
             writer.writerow(header_row)
             infile.seek(0)
             
@@ -45,13 +45,6 @@ def append_cluster_column(filename):
                     line.append(cluster_num[line[0]])
                     writer.writerow(line)
         
-'''
-geofile_coordinates = 'geo_information_coordinates.csv'
-geofile_nan = 'geo_information_nan_location_coordinates.tsv'
-
-append_cluster_column(geofile_coordinates)
-append_cluster_column(geofile_nan)
-'''
 geofile_final = 'geo_information_final.csv'
 
 append_cluster_column(geofile_final)

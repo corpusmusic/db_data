@@ -9,14 +9,14 @@ with open('../otherdata.csv') as f:
 	next(reader)
 	genre = {row[0]: row[1] for row in reader}
 
-with open('geo_information_coordinates_cluster.csv') as f:
+#with open('geo_information_nan_location_coordinates.csv') as f:
+with open('geo_information_coordinates.csv') as f:
 	new_row = [{
 	'track_id': row[0],
 	'genre': genre[row[0]],
 	'location': row[1],
 	'latitude': row[2],
 	'longitude': row[3],
-	#'cluster': row[4],
 	} for row in csv.reader(f) if row[0] in track_id]
 
 OUTPUT_FIELDS = [
@@ -25,9 +25,9 @@ OUTPUT_FIELDS = [
 	'location',
 	'latitude',
 	'longitude',
-	#'cluster',
 ]
 
+#with open('geo_information_nan_location_coordinates_final.csv', "wb") as f:
 with open('geo_information_coordinates_final.csv', "wb") as f:
 	output = csv.writer(f)
 	output.writerow(OUTPUT_FIELDS)

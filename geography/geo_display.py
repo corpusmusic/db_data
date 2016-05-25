@@ -7,8 +7,8 @@ marks_coordinates = np.genfromtxt("geo_information_coordinates.csv",
                                   dtype=[('lat', np.float32), ('lon', np.float32)], 
                                   usecols=(2, 3))
 
-marks_nan = np.genfromtxt("geo_information_nan_location_coordinates.tsv",
-                          delimiter='\t', 
+marks_nan = np.genfromtxt("geo_information_nan_location_coordinates.csv",
+                          delimiter=',', 
                           dtype=[('lat', np.float32), ('lon', np.float32)], 
                           usecols=(2, 3))
 
